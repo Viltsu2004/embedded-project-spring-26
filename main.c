@@ -1,5 +1,11 @@
 #include <stdio.h>
 #include "pico/stdlib.h"
+#include "pico/util/queue.h"
+#include "hardware/pwm.h"
+#include <stdbool.h>
+
+#define WRAP 999
+#define DIVIDER 125
 
 int main() {
 
