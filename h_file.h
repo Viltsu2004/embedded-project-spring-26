@@ -29,11 +29,9 @@ typedef enum {
     EVENT_MINUS,
 } event_t;
 
-bool check_response(char *buffer, const char *expected);
-bool pressed(uint pin);
+void init_event(void);
+bool get_event(event_t *event);
 void gpio_set_mode(uint pin, pin_mode_t mode);
-bool send_uart_command(char *buffer, const char *cmd, const char *expected);
-void change_dev_eui(char *buffer);
-static void gpio_handler(uint gpio, uint32_t event_mask);
+void gpio_handler(uint gpio, uint32_t event_mask);
 
 #endif //BLINK_H_FILE_H
