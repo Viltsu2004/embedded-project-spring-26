@@ -24,6 +24,8 @@ add_compile_options(-Wall
 # Tell CMake where to find the executable source file
 add_executable(${PROJECT_NAME} 
     main.c
+        functions.c
+        h_file.h
 )
 
 # Create map/bin/hex/uf2 files
