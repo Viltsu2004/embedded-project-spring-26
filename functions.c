@@ -6,6 +6,7 @@
 #include "pico/util/queue.h"
 #include "h_file.h"
 
+static queue_t events;
     //Input and outputs
 void gpio_set_mode(const uint pin, const pin_mode_t mode) {
     gpio_init(pin);
@@ -107,3 +108,9 @@ void change_dev_eui(char *buffer) {
     }
     buffer[j] = '\0';
 }
+
+static void gpio_handler(uint gpio, uint32_t event_mask) {
+    event_t event;
+    event = EVENT_BUTTON;
+    queue_try_add(&events, &event);
+    }

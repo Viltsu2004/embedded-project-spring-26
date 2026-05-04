@@ -3,6 +3,9 @@
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
 #include "h_file.h"
+#include "pico/util/queue.h"
+
+static queue_t events;
 
 int main() {
     stdio_init_all();
@@ -18,56 +21,20 @@ int main() {
     int state = 0;
     int count = 0;
 
-    while(1) {
+    queue_init(&events, sizeof(int), 10);
+    gpio_set_irq_enabled_with_callback(SW_0, GPIO_IRQ_EDGE_FALL, true, &gpio_handler);
+    event_t event;
 
-        switch (state) {
-            case 0:
-                while (!pressed(SW_0)){ tight_loop_contents(); }  //if button is not pressed stay in loop
-                while (pressed(SW_0)){ tight_loop_contents(); }   //stay loop as long as button is pressed
-                state = 1;  //change state
-                break;
+    gpio_set_mode(20, OUTPUT_PIN);
 
-            case 1:
-                const char connect_lora[] = AT_COMMAND;
-                if (send_uart_command(buffer, connect_lora, "OK")) {  //If return is true == lora is connected
-                    printf("Connected to LoRa module\n");
-                    count = 0;
-                    state = 2;
-                }
-                else {
-                    count++;
-                    if (count == ATTEMPTS) {  //after at command is send 5 times and evry time false == no lora connection
-                        printf("module not responding\n");
-                        count = 0;
-                        state = 0;
-                    }
-                }
-                break;
+    while (queue_try_remove(&events, &event))
 
-            case 2:
-                const char at_version[] = AT_FIRMWARE_COMMAND;
-                if (send_uart_command(buffer, at_version, "+VER:")) {
-                    printf("%s\n", buffer);
-                    state = 3;
+        while(1) {
+            while (queue_try_remove(&events, &event)) {
+                switch (event) {
+                    case EVENT_BUTTON:
+                        gpio_put(20, true);
                 }
-                else {
-                    printf("module stopped responding\n");
-                    state = 0;
-                }
-                break;
-
-            case 3:
-                const char com_dev[] = AT_DEV_EUI;
-                if (send_uart_command(buffer, com_dev, "+ID:")) {
-                    change_dev_eui(buffer);  //if response is resieved change format to lower
-                    printf("%s\n", buffer);
-                    state = 0; //back to beginning
-                }
-                else {
-                    printf("module stopped responding\n");
-                    state = 0;
-                }
-                break;
+            }
         }
-    }
 }
