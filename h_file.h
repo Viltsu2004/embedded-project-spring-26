@@ -1,0 +1,33 @@
+#ifndef BLINK_H_FILE_H
+#define BLINK_H_FILE_H
+
+#define SW_0 9
+
+#define UART_ID uart1
+#define BAUD_RATE 9600
+
+#define UART_TX_PIN 5
+#define UART_RX_PIN 4
+#define UART_READ_TIMEOUT 500000
+
+#define ATTEMPTS 5
+#define MAX_COMMAND_LENGTH 50
+#define AT_COMMAND "AT\r\n"
+#define AT_FIRMWARE_COMMAND "AT+VER\r\n"
+#define AT_DEV_EUI "AT+ID=DevEui\r\n"
+
+typedef enum {
+    PULL_UP,
+    PULL_DOWN,
+    OUTPUT_PIN,
+    INPUT_PIN
+} pin_mode_t;
+
+bool check_response(char *buffer, const char *expected);
+bool pressed(uint pin);
+void gpio_set_mode(uint pin, pin_mode_t mode);
+bool send_uart_command(char *buffer, const char *cmd, const char *expected);
+void change_dev_eui(char *buffer);
+
+
+#endif //BLINK_H_FILE_H
