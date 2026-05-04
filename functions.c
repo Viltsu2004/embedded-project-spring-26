@@ -25,10 +25,8 @@ void gpio_set_mode(const uint pin, const pin_mode_t mode) {
         case INPUT_PIN:
             gpio_set_dir(pin, GPIO_IN);
             break;
-
         default:
             break;
-
     }
 }
 
