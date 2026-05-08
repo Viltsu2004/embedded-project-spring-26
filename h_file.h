@@ -25,7 +25,7 @@
 #define IN3 6
 #define IN4 13
 
-#define CALIBRATION_ROTATIONS 3
+#define CALIBRATION_ROTATIONS 1
 #define NUMBER_OF_OUTPUT_PINS 4
 #define FULL_REVOLUTION 8
 
@@ -63,5 +63,9 @@ bool get_event(event_t *event); //remove event
 void gpio_set_mode(uint pin, pin_mode_t mode);  //outputs and inputs and pulls and downs
 void gpio_handler(uint gpio, uint32_t event_mask); //interrupt handler
 bool run_motor_n_revolution(int number, stepper_status *status); //run motor n places
+bool check_response(const char *buffer, const char *expected);
+bool send_uart_command(char *buffer, const char *cmd, const char *expected);
+void change_dev_eui(char *buffer);
+bool pressed(uint pin);
 
 #endif //BLINK_H_FILE_H
