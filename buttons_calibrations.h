@@ -20,7 +20,7 @@
 #define FULL_REVOLUTION 8
 #define RUN_PILLS 7
 #define BLINKER_TIMEOUT 1000
-#define DAY_WAIT 3000
+#define DAY_WAIT 30000
 #define SLEEP 100
 
 #define HALF_OPTO_FORK_LENGTH 2
