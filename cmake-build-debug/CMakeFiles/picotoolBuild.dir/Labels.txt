@@ -1,0 +1,14 @@
+# Target labels
+ picotoolBuild
+# Source files and their labels
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/CMakeFiles/picotoolBuild
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/CMakeFiles/picotoolBuild.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/CMakeFiles/picotoolBuild-complete.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-build.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-configure.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-download.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-install.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-mkdir.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-patch.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-test.rule
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/picotool/src/picotoolBuild-stamp/picotoolBuild-update.rule

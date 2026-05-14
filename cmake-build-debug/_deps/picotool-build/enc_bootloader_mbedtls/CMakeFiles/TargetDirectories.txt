@@ -1,0 +1,2 @@
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/_deps/picotool-build/enc_bootloader_mbedtls/CMakeFiles/edit_cache.dir
+C:/Users/litas/CLionProjects/embedded-project-spring-26/cmake-build-debug/_deps/picotool-build/enc_bootloader_mbedtls/CMakeFiles/rebuild_cache.dir
