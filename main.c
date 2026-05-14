@@ -64,6 +64,11 @@ int main() {
     if (connect_lora()) {
         send_message(&lora_error, "boot");
     }
+    else {
+        if (connect_lora()) {
+            send_message(&lora_error, "boot");
+        }
+    }
 
 
     while(1) {

@@ -101,9 +101,7 @@ int connect_lora() {
         return false;
     }
     if (!check_join(AT_JOIN, JOIN_CMD_ANSWER, CMD_TIMEOUTS2)) {
-        if (!check_join(AT_JOIN, JOIN_CMD_ANSWER, CMD_TIMEOUTS2)) {
-            return false;
-        }
+        return false;
     }
     return true;
 }
