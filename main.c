@@ -49,7 +49,7 @@ int main() {
     gpio_set_irq_enabled(PIEZO_SENSOR, GPIO_IRQ_EDGE_FALL, true);
 
     event_t event;
-    absolute_time_t toggle = make_timeout_time_ms(1000);
+    absolute_time_t toggle = make_timeout_time_ms(BLINKER_TIMEOUT);
 
     uart_init(UART_ID, BAUD_RATE);
     //set uart to functionate
@@ -82,11 +82,11 @@ int main() {
                     }
                 }
 
-                //if not calibrated -> led blinks
+                //if not calibrated -> LED blinks
                 if (!status.calibrated && time_reached(toggle)) {
                     led_on = !led_on;
                     gpio_put(LED1, led_on);
-                    toggle = make_timeout_time_ms(1000);
+                    toggle = make_timeout_time_ms(BLINKER_TIMEOUT);
                 }
                 break;
 
@@ -105,7 +105,7 @@ int main() {
                         for (int i = 0; i < 6; i++) {
                             led_on = !led_on;
                             gpio_put(LED1, led_on);
-                            sleep_ms(100);
+                            sleep_ms(SLEEP);
                         }
                         if (!lora_connection) {
                             send_message(&lora_connection, "not dispensed");
@@ -117,9 +117,9 @@ int main() {
                         }
                     }
                     counter++;  //count rotations
-                    toggle = make_timeout_time_ms(30000);
+                    toggle = make_timeout_time_ms(DAY_WAIT);
                 }
-                if (counter == FULL_REVOLUTION) {
+                if (counter == RUN_PILLS) {
                     counter = 0;
                     status.calibrated = false;
                     if (!lora_connection) {

@@ -3,7 +3,7 @@
 
 #define AT_COMMAND "AT\r\n"
 #define AT_MODE "AT+MODE=LWOTAA\r\n"
-#define AT_KEY "AT+KEY=APPKEY,81e68d4336ab62878d89f7ba148307ce\r\n"
+#define AT_KEY "AT+KEY=APPKEY,d4c922f29b39383e1ea912858527010c\r\n"
 #define AT_CLASS "AT+CLASS=A\r\n"
 #define AT_PORT "AT+PORT=8\r\n"
 #define AT_DR "AT+DR=5\r\n"
