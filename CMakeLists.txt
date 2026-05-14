@@ -25,7 +25,11 @@ add_compile_options(-Wall
 add_executable(${PROJECT_NAME} 
     main.c
         functions.c
-        h_file.h
+        interrupt_button.h
+        lora_eeprom.c
+        lora_eeprom.h
+        que.h
+        que_funct.c
 )
 
 # Create map/bin/hex/uf2 files

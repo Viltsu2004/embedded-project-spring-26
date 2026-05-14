@@ -1,13 +1,12 @@
 #include "pico/stdlib.h"
 #include "hardware/pwm.h"
 #include "pico/util/queue.h"
-#include "h_file.h"
-#include "stdio.h"
 #include "string.h"
-#include "ctype.h"
 
-//event
-static queue_t events;
+#include "interrupt_button.h"
+#include "que.h"
+
+static event_t event;
 
     //Input and outputs
 void gpio_set_mode(const uint pin, const pin_mode_t mode) {
@@ -32,30 +31,6 @@ void gpio_set_mode(const uint pin, const pin_mode_t mode) {
     }
 }
 
-//init gueue
-void init_event() {
-    queue_init(&events, sizeof(event_t), 10);
-}
-
-//try remove event form gueue
-bool get_event(event_t *event) {
-    return queue_try_remove(&events, event);
-}
-
-//interrupt
-void gpio_handler(uint gpio, uint32_t event_mask) {
-    int event = 0;
-    if (gpio == SW_0) {
-        event = CALIBRATE;
-    }
-    else if (gpio == SW_2) {
-        event = DISPENSE_PILL;
-    }
-    else if (gpio == PIEZO_SENSOR) {
-        event = PILL_FALLING;
-    }
-    queue_try_add(&events, &event);
-}
 
 //calibrate device
 void calib(stepper_status *status) {
@@ -122,7 +97,6 @@ int run_stepper_helper(stepper_status *status, int prev_value) {
 
 // run x many places = dispence x many pills
 bool run_motor_n_revolution(int number, stepper_status *status) {
-    event_t event;
     int pill_fall = false;
     int moved_step = status->count_taken_steps / FULL_REVOLUTION * number;
     int prev = gpio_get(OPTO_FORK);
@@ -138,70 +112,6 @@ bool run_motor_n_revolution(int number, stepper_status *status) {
     return pill_fall;
 }
 
-//empty gueue
-void empty_gue() {
-    event_t event;
-    while (get_event(&event)) {tight_loop_contents();}
-}
-
-
-
-//Send uart command that is wanted and read response
-bool send_uart_command(char *buffer, const char *cmd, const char *expected) {
-    int position = 0;
-    buffer[0] = '\0';
-
-    uart_puts(UART_ID, cmd);
-
-    absolute_time_t timeout = make_timeout_time_ms(500);
-
-    while (get_absolute_time() < timeout){//uart_is_readable_within_us (UART_ID,UART_READ_TIMEOUT)) {
-        if (uart_is_readable(UART_ID)) {
-            char c = uart_getc(UART_ID);
-            if (c == '\n' || c == '\r') {  // if character is escape or newline
-                if (position > 0) {
-                    buffer[position] = '\0';
-                    if (check_response(buffer, expected)) {
-                        return true;
-                    }
-                    position = 0;
-                }
-            }
-            else {
-                if (position < MAX_COMMAND_LENGTH - 1) {
-                    buffer[position++] = c;  //if no newline or escape or command over max length - 1 = next char
-                }
-            }
-        }
-    }
-    return false;
-}
-
-bool check_response(const char *buffer, const char *expected) {
-    if (strstr(buffer, expected) != NULL) {return true;}
-    return false;
-}
-
-void change_dev_eui(char *buffer) {
-    int i = 0;
-    int j = 0;
-    bool stat = false;
-
-    while (buffer[i] != '\0') {  //if buffer[i] is \0 stop loop
-        if (buffer[i] == ',') {
-            stat = true;
-            i++;
-        }
-        if (stat) {
-            if (isxdigit((unsigned char)buffer[i])) {
-                buffer[j] = tolower((unsigned char)buffer[i]);
-                j++;
-            }
-        }
-        i++;
-    }
-    buffer[j] = '\0';
-}
 
 bool pressed(const uint pin)
 {
