@@ -3,8 +3,8 @@
 #include "pico/util/queue.h"
 #include "string.h"
 
-#include "interrupt_button.h"
-#include "que.h"
+#include "buttons_calibrations.h"
+#include "queue.h"
 
 static event_t event;
 
@@ -110,24 +110,4 @@ bool run_motor_n_revolution(int number, stepper_status *status) {
         prev = gpio_get(OPTO_FORK);
     }
     return pill_fall;
-}
-
-
-bool pressed(const uint pin)
-{
-    int press = 0;
-    int release = 0;
-    while(press < 3 && release < 3) {
-        if(!gpio_get(pin)) {
-            press++;
-            release = 0;
-        }
-        else {
-            release++;
-            press = 0;
-        }
-        sleep_ms(10); // wait 10 ms
-    }
-    if(press > release) return true;
-    return false;
 }

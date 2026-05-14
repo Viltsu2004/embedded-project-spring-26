@@ -3,9 +3,9 @@
 #include "hardware/pwm.h"
 #include "stdio.h"
 
-#include "interrupt_button.h"
-#include "lora_eeprom.h"
-#include "que.h"
+#include "buttons_calibrations.h"
+#include "lora_communication.h"
+#include "queue.h"
 
 
 int main() {
@@ -58,11 +58,11 @@ int main() {
 
     int counter = 0;
     int state = 1;
-    bool lora_connection = false;
+    bool lora_error = false;
 
 
     if (connect_lora()) {
-        send_message(&lora_connection, "boot");
+        send_message(&lora_error, "boot");
     }
 
 
@@ -73,8 +73,8 @@ int main() {
                     if (!status.calibrated && event == CALIBRATE) { //only sw_0 interrupt -> calibrate device
                         calib(&status);
                         gpio_put(LED1, 1);
-                        if (!lora_connection) {
-                            send_message(&lora_connection, "calibrated");
+                        if (!lora_error) {
+                            send_message(&lora_error, "calibrated");
                         }
                     }
                     else if (event == DISPENSE_PILL && status.calibrated) { //only sw_2 interrupt -> dispense pills
@@ -92,12 +92,6 @@ int main() {
 
 
             case 2:
-                /*if (counter == 0) {
-                    toggle = make_timeout_time_ms(30000);
-                    if (!lora_connection) {
-                        send_message(&lora_connection, "calibrated");
-                    }
-                }*/
                 gpio_put(LED1, 0); //leds off
                 if (time_reached(toggle)) { //if time reached -> dispense one pill
                     empty_gue();
@@ -107,23 +101,23 @@ int main() {
                             gpio_put(LED1, led_on);
                             sleep_ms(100);
                         }
-                        if (!lora_connection) {
-                            send_message(&lora_connection, "not dispensed");
+                        if (!lora_error) {
+                            send_message(&lora_error, "not dispensed");
                         }
                     }
                     else {
-                        if (!lora_connection) {
-                            send_message(&lora_connection, "pill dispensed");
+                        if (!lora_error) {
+                            send_message(&lora_error, "pill dispensed");
                         }
                     }
                     counter++;  //count rotations
-                    toggle = make_timeout_time_ms(30000);
+                    toggle = make_timeout_time_ms(5000);
                 }
-                if (counter == FULL_REVOLUTION) {
+                if (counter == 7) {
                     counter = 0;
                     status.calibrated = false;
-                    if (!lora_connection) {
-                        send_message(&lora_connection, "Dispenser empty");
+                    if (!lora_error) {
+                        send_message(&lora_error, "Dispenser empty");
                     }
                     state = 1;
                 }

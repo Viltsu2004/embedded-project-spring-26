@@ -16,7 +16,7 @@
 #define CLASS_CMD_ANSWER "+CLASS:"
 #define PORT_CMD_ANSWER "+PORT:"
 #define DR_CMD_ANSWER "+DR:"
-#define JOIN_CMD_ANSWER "+JOIN: Done"
+#define JOIN_CMD_ANSWER "+JOIN: Network joined"
 #define MSG_CMD_ANSWER "+MSG: Done"
 
 

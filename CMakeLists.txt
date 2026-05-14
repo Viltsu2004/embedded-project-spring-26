@@ -24,12 +24,12 @@ add_compile_options(-Wall
 # Tell CMake where to find the executable source file
 add_executable(${PROJECT_NAME} 
     main.c
-        functions.c
-        interrupt_button.h
-        lora_eeprom.c
-        lora_eeprom.h
-        que.h
-        que_funct.c
+        buttons_calibrations.c
+        buttons_calibrations.h
+        lora_communication.c
+        lora_communication.h
+        queue.h
+        queue_funct.c
 )
 
 # Create map/bin/hex/uf2 files
