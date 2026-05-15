@@ -106,14 +106,10 @@ int main() {
                             gpio_put(LED1, led_on);
                             sleep_ms(SLEEP);
                         }
-                        if (!lora_error) {
-                            send_message(&lora_error, "not dispensed");
-                        }
+                        send_message(&lora_error, "not dispensed");
                     }
                     else {
-                        if (!lora_error) {
-                            send_message(&lora_error, "pill dispensed");
-                        }
+                        send_message(&lora_error, "pill dispensed");
                     }
                     counter++;  //count rotations
                     toggle = make_timeout_time_ms(DAY_WAIT);
@@ -121,9 +117,7 @@ int main() {
                 if (counter == RUN_PILLS) {
                     counter = 0;
                     status.calibrated = false;
-                    if (!lora_error) {
-                        send_message(&lora_error, "Dispenser empty");
-                    }
+                    send_message(&lora_error, "Dispenser empty");
                     state = 1;
                 }
                 break;
