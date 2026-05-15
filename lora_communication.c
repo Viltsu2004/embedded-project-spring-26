@@ -6,13 +6,12 @@
 #include "ctype.h"
 
 
-#include "lora_eeprom.h"
+#include "lora_communication.h"
 
 bool check_join(const char *cmd, const char *expected, const int timeout) {
     char buffer[MAX_COMMAND_LENGTH];
     int position = 0;
     buffer[0] = '\0';
-    bool join_status = false;
 
     uart_puts(UART_ID, cmd);
 
@@ -25,10 +24,10 @@ bool check_join(const char *cmd, const char *expected, const int timeout) {
                 if (position > 0) {
                     buffer[position] = '\0';
                     if (strstr(buffer, "+JOIN: Join failed")) {
-                        join_status = true;
+                        return false;
                     }
                     if (check_response(buffer, expected)) {
-                        return !join_status;
+                        return true;
                     }
                     position = 0;
                 }
@@ -102,9 +101,7 @@ int connect_lora() {
         return false;
     }
     if (!check_join(AT_JOIN, JOIN_CMD_ANSWER, CMD_TIMEOUTS2)) {
-        if (!check_join(AT_JOIN, JOIN_CMD_ANSWER, CMD_TIMEOUTS2)) {
-            return false;
-        }
+        return false;
     }
     return true;
 }

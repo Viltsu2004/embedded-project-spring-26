@@ -48,6 +48,5 @@ void calib(stepper_status *status); //calibrate device
 int run_stepper_helper(stepper_status *status, int prev_value);  //run one step
 void gpio_set_mode(uint pin, pin_mode_t mode);  //outputs and inputs and pulls and downs
 bool run_motor_n_revolution(int number, stepper_status *status); //run motor n places
-bool pressed(uint pin);
 
 #endif //BLINK_H_FILE_H

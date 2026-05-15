@@ -3,7 +3,7 @@
 #include "pico/util/queue.h"
 #include "string.h"
 
-#include "que.h"
+#include "queue.h"
 
 static queue_t events;
 
