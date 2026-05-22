@@ -11,7 +11,6 @@
 int main() {
     stdio_init_all();
     bool led_on = false;
-
     //pitää yllä dispenserin statusta ja pinnejä
     stepper_status status = {
         .ins_pins = {IN1, IN2, IN3, IN4},
@@ -78,9 +77,7 @@ int main() {
                     if (!status.calibrated && event == CALIBRATE) { //only sw_0 interrupt -> calibrate device
                         calib(&status);
                         gpio_put(LED1, 1);
-                        if (!lora_error) {
-                            send_message(&lora_error, "calibrated");
-                        }
+                        send_message(&lora_error, "calibrated");
                     }
                     else if (event == DISPENSE_PILL && status.calibrated) { //only sw_2 interrupt -> dispense pills
                         state = 2;

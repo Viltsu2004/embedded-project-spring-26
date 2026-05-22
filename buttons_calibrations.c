@@ -100,7 +100,7 @@ bool run_motor_n_revolution(int number, stepper_status *status) {
     int pill_fall = false;
     int moved_step = status->count_taken_steps / FULL_REVOLUTION * number;
     int prev = gpio_get(OPTO_FORK);
-    for (int i = 0; i < moved_step; i++) { //run motor as long as it reach wanted steps
+    for (int i = 0; i < moved_step; i++) { //run motor as long as it reach wanted steps{
         if (get_event(&event)) {
             if (event == PILL_FALLING) {
                 pill_fall = true;
